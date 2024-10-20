@@ -104,25 +104,25 @@ if ($dest -eq "") {
 Get-ChildItem -Path $srcroot -Recurse | ForEach-Object {
     $item = $_
     $filename = $item.Name
+    $fullname = $item.FullName
     $ext = $item.Extension
 
     if ($item.PsIsContainer) {
         # Ignore directories.
     } elseif (($filename -eq "desktop.ini") -or ($filename -eq "Thumbs.db") -or ($filename -eq ".picasa.ini")) {
-        # Ignore this file.
+        # Ignore these files.
     } elseif (($ext -eq ".jpg") -or ($ext -eq ".jpeg")) {
-        # Note that `-like` matches in a case insensitive manner.
         if ($verbose) {
-            Write-Output "$filename is a JPEG file."
+            Write-Output "$fullname is a JPEG file."
         }
-        Move-Image $item $dest/jpg
+        Move-Image $item $dest/JPEG
 
     } elseif (($ext -eq ".CR2") -or ($ext -eq ".DNG") -or ($ext -eq ".RW2")) {
         if ($verbose) {
-            Write-Output "$filename is a raw file."
+            Write-Output "$fullname is a raw file."
         }
-        Move-Image $item.FullName $dest/raw
+        Move-Image $item.FullName $dest/RAW
     } else {
-        Write-Output "$filename is an unknown file."
+        Write-Output "$fullname is an unknown file."
     }
 }
